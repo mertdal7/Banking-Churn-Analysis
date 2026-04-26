@@ -9,7 +9,7 @@ A end-to-end data analytics portfolio project analyzing customer churn at a reta
 ![Dashboard](images/Bank_Churn_Analysis_Page_1.png)
 
 **Page-2**
-![Dashboard](images/Bank_Churn_Analysis_Page_1.png)
+![Dashboard](images/Bank_Churn_Analysis_Page_2.png)
 
 ---
 
