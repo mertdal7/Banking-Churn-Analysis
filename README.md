@@ -1,4 +1,4 @@
-# Banking Churn Analysis
+# Bank Churn Analysis
 ### BigQuery · Power BI · SQL
 
 A end-to-end data analytics portfolio project analyzing customer churn at a retail bank. The project identifies which customer segments are churning, quantifies the financial damage, and produces a prioritized retention target list for the bank's retention team.
