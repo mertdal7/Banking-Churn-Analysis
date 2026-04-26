@@ -3,6 +3,9 @@
 
 A end-to-end data analytics portfolio project analyzing customer churn at a retail bank. The project identifies which customer segments are churning, quantifies the financial damage, and produces a prioritized retention target list for the bank's retention team.
 
+# Dashboard Preview
+
+![Dashboard](images/Bank_Churn_Analysis_Page_1.png)
 ---
 
 ## Table of Contents
