@@ -226,30 +226,4 @@ bank-churn-analysis/
     └── Churn_Modelling.csv
 ```
 
----
-
-## How to Run
-
-**BigQuery setup:**
-
-1. Create a GCP project and enable BigQuery
-2. Upload `Churn_Modelling.csv` to a new dataset named `churn_dataset`
-3. Run the SQL files in order:
-   ```
-   1. vw_churn_enriched.sql
-   2. vw_segment_stats.sql
-   3. vw_segment_priority.sql
-   ```
-
-**Power BI setup:**
-
-1. Open `bank_churn_analysis.pbix`
-2. Go to Transform Data → Data Source Settings
-3. Update the BigQuery project and dataset connection to your own
-4. Refresh the data
-
-Alternatively, view the static export at `dashboard/bank_churn_analysis.pdf`.
-
----
-
 *Built as a portfolio project to demonstrate end-to-end data analytics skills across SQL, cloud data warehousing, and business intelligence tooling.*
