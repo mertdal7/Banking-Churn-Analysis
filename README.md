@@ -120,8 +120,6 @@ Extends `vw_segment_stats` with quadrant assignment and action labels. Used for 
 ### Segmentation
 Segments are defined as **Geography × Age Group** combinations, producing 15 distinct groups. This level of granularity was chosen because it produces statistically meaningful segment sizes (minimum ~120 customers per segment) while remaining actionable — a regional retention manager can act on "German customers aged 40–49" immediately.
 
-Balance segmentation was intentionally kept as a reporting dimension rather than a segmentation axis to avoid creating thin, unreliable segments.
-
 ### Risk Priority Index
 Rather than building a composite index, the prioritization framework uses a two-step approach:
 
