@@ -21,7 +21,6 @@
 -- =============================================================================
 -- SECTION 1: SANITY CHECKS
 -- Validate raw data quality before building any views.
--- Run these queries manually and review results before proceeding.
 -- =============================================================================
 
 -- -----------------------------------------------------------------------------
@@ -87,7 +86,6 @@ FROM `churn-project-492519.churn_dataset.Churn_Modelling`;
 -- -----------------------------------------------------------------------------
 -- 1.5 Balance distribution check
 -- Large zero-balance cluster is expected in retail banking data.
--- Zero-balance customers will be handled as a separate segment.
 -- -----------------------------------------------------------------------------
 SELECT
   COUNTIF(Balance = 0)                                  AS zero_balance,
@@ -302,12 +300,16 @@ GROUP BY geography, age_group;
 --   Low churn  · Low balance  → Healthy     (quadrant_order = 4)
 --
 -- PRIORITIZATION LOGIC:
---   Lost balance was used as the primary ranking metric within quadrants
---   rather than a composite index, because lost balance naturally combines
---   both churn likelihood and financial exposure — segments with high churn
---   AND high balances produce the highest lost balance figures organically.
---   A normalized composite index would reconstruct the same information
---   with added complexity and less intuitive explainability.
+--   Lost balance was chosen as the primary ranking metric within quadrants
+--   rather than a composite index for two reasons:
+--
+--   *Within the urgent quadrant, all segments have already cleared both
+--      the churn rate threshold (>=24.4%) and the lost balance threshold
+--      (>=$12.37M) — meaning churn risk is confirmed for every segment
+--      in this group. Lost balance then serves as the financial tiebreaker,
+--      ranking segments by the actual monetary damage they caused.
+--   The quadrant filter handles risk qualification. Lost balance handles
+--   financial prioritization. Each dimension does one job cleanly.
 -- =============================================================================
 
 CREATE OR REPLACE VIEW `churn-project-492519.churn_dataset.vw_segment_priority` AS
@@ -453,23 +455,6 @@ SELECT
     WHEN quadrant = 'Low churn · High balance'           THEN 'Protect'
     ELSE                                                 'Healthy'
   END                                                    AS action,
-
-  -- Composite sort key for Power BI multi-column sorting.
-  -- Encodes quadrant priority (hundreds) + lost balance rank (units)
-  -- so a single ascending sort on sort_key produces correct ordering
-  -- across all 15 segments simultaneously.
-  -- Example: segment with quadrant_order=1, rank=2 → sort_key=2
-  --          segment with quadrant_order=2, rank=1 → sort_key=101
-  CASE
-    WHEN quadrant_order = 1
-      THEN RANK() OVER (PARTITION BY quadrant_order ORDER BY lost_balance DESC)
-    WHEN quadrant_order = 2
-      THEN 100 + RANK() OVER (PARTITION BY quadrant_order ORDER BY lost_balance DESC)
-    WHEN quadrant_order = 3
-      THEN 200 + RANK() OVER (PARTITION BY quadrant_order ORDER BY lost_balance DESC)
-    ELSE
-      300 + RANK() OVER (PARTITION BY quadrant_order ORDER BY lost_balance DESC)
-  END                                                    AS sort_key
 
 FROM quadrants
 ORDER BY quadrant_order ASC, lost_balance DESC;
