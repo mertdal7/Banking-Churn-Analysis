@@ -111,7 +111,7 @@ Enriched version of the raw dataset with derived dimensions added:
 Pre-aggregated to 15 segments (Geography × Age Group) with churn rate, lost balance, and customer counts. Power BI connects to this view for KPI cards and segment-level visuals.
 
 ### `vw_segment_priority`
-Extends `vw_segment_stats` with quadrant assignment, action labels, and priority ranking. Used for the scatter plot and priority table on page 2.
+Extends `vw_segment_stats` with quadrant assignment and action labels. Used for the scatter plot and priority table on page 2.
 
 ---
 
